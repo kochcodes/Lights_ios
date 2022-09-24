@@ -14,6 +14,7 @@
 		8395A30228DF13A400E3AB53 /* LightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A30128DF13A400E3AB53 /* LightsTests.swift */; };
 		8395A30C28DF13A400E3AB53 /* LightsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A30B28DF13A400E3AB53 /* LightsUITests.swift */; };
 		8395A30E28DF13A400E3AB53 /* LightsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A30D28DF13A400E3AB53 /* LightsUITestsLaunchTests.swift */; };
+		8395A31B28DF1B8500E3AB53 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A31A28DF1B8500E3AB53 /* BLEManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		8395A30728DF13A400E3AB53 /* LightsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8395A30B28DF13A400E3AB53 /* LightsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightsUITests.swift; sourceTree = "<group>"; };
 		8395A30D28DF13A400E3AB53 /* LightsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8395A31A28DF1B8500E3AB53 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				8395A2F028DF13A300E3AB53 /* LightsApp.swift */,
 				8395A2F228DF13A300E3AB53 /* ContentView.swift */,
+				8395A31A28DF1B8500E3AB53 /* BLEManager.swift */,
 				8395A2F428DF13A400E3AB53 /* Assets.xcassets */,
 				8395A2F628DF13A400E3AB53 /* Preview Content */,
 			);
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8395A2F328DF13A300E3AB53 /* ContentView.swift in Sources */,
+				8395A31B28DF1B8500E3AB53 /* BLEManager.swift in Sources */,
 				8395A2F128DF13A300E3AB53 /* LightsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,11 +424,12 @@
 				DEVELOPMENT_TEAM = QUFBWHX3JC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -449,11 +454,12 @@
 				DEVELOPMENT_TEAM = QUFBWHX3JC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
