@@ -17,10 +17,19 @@ struct Peripheral: Identifiable {
     var percentage: Int
 }
 
+struct Others: Identifiable{
+    var id: Int
+    let name: String
+    let rssi: Int
+}
+
 class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     @Published var isSwitchedOn = false
     @Published var isScanning = false
+    
+    @Published var otherDevices: [Others] = []
+    
     var myCentral: CBCentralManager!
     var myPeripheral: CBPeripheral!
     @Published var device: Peripheral!
@@ -44,6 +53,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             print("Connecting...")
             myCentral.connect(myPeripheral)
         }
+        stopScanning()
     }
     
     func disconnect(){
@@ -54,9 +64,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     func startScanning() {
+        otherDevices = []
         print("startScanning")
         isScanning = true
-        myCentral.scanForPeripherals(withServices: [batteryServiceCBUUID], options: nil)
+        myCentral.scanForPeripherals(withServices: nil, options: nil)
     }
     
     func stopScanning() {
@@ -164,7 +175,11 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         } else {
             pConnecteable = false
         }
-
+        
+        if(pConnecteable){
+            otherDevices.append(Others(id: otherDevices.count, name: pName, rssi: RSSI.intValue))
+        }
+        
         if(pName == "Lights"){
             myPeripheral = peripheral
             device = Peripheral(
@@ -175,8 +190,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 batteryLevel: -1,
                 percentage: 0
             )
-            stopScanning()
-            connect()
         }
     }
     

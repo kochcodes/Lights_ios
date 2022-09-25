@@ -41,6 +41,9 @@ struct ContentView: View {
                     }
                 } else {
                     Section{
+                        Text("Name").badge(
+                            Text(bleManager.device.name)
+                        )
                         Text("Status").badge(
                             Text(String(bleManager.device.status))
                         )
@@ -58,15 +61,6 @@ struct ContentView: View {
                                     Text(String(bleManager.device.percentage) + "%")
                                 )
                             }
-                        }
-                        if( bleManager.device.status == "ready"){
-                            Button(action: {
-                                bleManager.connect()
-                            }) {
-                                Text("Connect")
-                            }
-                        }
-                        if( bleManager.device.status == "connected"){
                             Button(action: {
                                 bleManager.sendPercentage(value: 20)
                             }) {
@@ -74,15 +68,36 @@ struct ContentView: View {
                             }
                         }
                     } header: {
-                        Text(bleManager.device.name)
+                        Text("Lights found")
                     }
-                    Section{
+                    if( bleManager.device.status == "connected"){
                         Button(action: {
                             bleManager.disconnect()
                         }) {
                             Text("Disconnect")
                         }
                     }
+                    
+                    if( bleManager.device.status == "ready"){
+                        Button(action: {
+                            bleManager.connect()
+                        }) {
+                            Text("Connect")
+                        }
+                    }
+                }
+                if(bleManager.otherDevices.count > 0){                    
+                    Section{
+                        ForEach(bleManager.otherDevices){ device in
+                            Text(device.name).badge(
+                                Text(String(device.rssi) + " dBm")
+                            )
+                        }
+                        Text(bleManager.otherDevices[0].name)
+                    } header: {
+                        Text("Other devices (" + String(bleManager.otherDevices.count) + ")")
+                    }
+                    
                 }
             }
         }
