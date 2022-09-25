@@ -15,6 +15,7 @@ struct Peripheral: Identifiable {
     var status: String
     var batteryLevel: Int
     var percentage: Int
+    var mode: Int
 }
 
 struct Others: Identifiable{
@@ -42,6 +43,9 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     let percentageServiceCBUUID = CBUUID(string: "0x27AD")
     let percentageCharacteristicCBUUID = CBUUID(string: "0x2A6E")
 
+    let modeServiceCBUUID = CBUUID(string: "0x27AE")
+    let modeCharacteristicCBUUID = CBUUID(string: "0x2A6F")
+    
     override init() {
         super.init()
         myCentral = CBCentralManager(delegate: self, queue: nil)
@@ -121,6 +125,9 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             case percentageCharacteristicCBUUID:
                 let percentage = percentage(from: characteristic)
                 device.percentage = Int(percentage)
+            case modeCharacteristicCBUUID:
+                let mode = percentage(from: characteristic)
+                device.mode = Int(mode)
             default:
             print("Unhandled Characteristic UUID: \(characteristic.uuid)")
         }
@@ -140,7 +147,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     private func batteryLevel(from characteristic: CBCharacteristic) -> UInt8 {
         guard let characteristicData = characteristic.value,
         let byte = characteristicData.first else { return 0 }
-
         return byte
     }
     
@@ -188,7 +194,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 rssi: RSSI.intValue,
                 status: pConnecteable ? "ready" : "in use",
                 batteryLevel: -1,
-                percentage: 0
+                percentage: 0,
+                mode: -1
             )
         }
     }

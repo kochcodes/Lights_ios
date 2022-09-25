@@ -84,6 +84,11 @@ struct ContentView: View {
                                     Text(String(bleManager.device.percentage) + "%")
                                 )
                             }
+                            if( bleManager.device.mode != -1){
+                                Text("Mode").badge(
+                                    Text(String(bleManager.device.mode))
+                                )
+                            }
                             Button(action: {
                                 bleManager.sendPercentage(value: 20)
                             }) {
