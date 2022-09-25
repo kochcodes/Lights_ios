@@ -9,4 +9,4 @@ The sync between the single edges is handled by the mesh itself.
 
 ### Screenshots
 
-<img src="https://github.com/kochcodes/Lights_ios/blob/main/docs/IMG_276500648773-1.jpeg" data-canonical-src="https://github.com/kochcodes/Lights_ios/blob/main/docs/IMG_276500648773-1.jpeg" width="250" />
+<img src="https://github.com/kochcodes/Lights_ios/blob/main/docs/IMG_18A9A977265A-1.jpeg" data-canonical-src="https://github.com/kochcodes/Lights_ios/blob/main/docs/IMG_18A9A977265A-1.jpeg" width="250" />
