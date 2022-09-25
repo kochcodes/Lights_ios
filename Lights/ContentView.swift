@@ -12,15 +12,38 @@ struct ContentView: View {
     @ObservedObject var bleManager = BLEManager()
     
     var body: some View {
-        NavigationView{
-            List{
+        ZStack{
+            Image("header")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .center)
+                .clipped()
+            Rectangle()
+                .fill(LinearGradient(
+                    gradient: .init(colors: [Color.black, Color.black.opacity(0), Color.black.opacity(0), Color.black]),
+                    startPoint: .init(x: 0, y: 0),
+                    endPoint: .init(x: 0, y: 1)
+                ))
+                .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .bottom)
+            Text("Lights")
+                .font(.system(size: 50))
+                .padding(.leading, 20)
+                .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .bottomLeading)
+        }
+        .frame(width: UIScreen.main.bounds.size.width)
+        
+        List{
+            if( !bleManager.isSwitchedOn ){
                 Section{
                     Text("Bluetooth").badge(
                         Text(bleManager.isSwitchedOn ? "on" : "off")
                     )
                 } header: {
                     Text("System Status")
+                } footer: {
+                    Text("To use this app and your bike lights, you need to turn on Bluetooth and allow this app to use Bluetooth.")
                 }
+            } else {
                 if(bleManager.device == nil){
                     Section{
                         if(!bleManager.isScanning){
@@ -86,21 +109,17 @@ struct ContentView: View {
                         }
                     }
                 }
-                if(bleManager.otherDevices.count > 0){                    
+            }
+            if(bleManager.device != nil){
+                if(bleManager.otherDevices.count > 0 && bleManager.device.status != "connected"){
                     Section{
-                        ForEach(bleManager.otherDevices){ device in
-                            Text(device.name).badge(
-                                Text(String(device.rssi) + " dBm")
-                            )
-                        }
-                        Text(bleManager.otherDevices[0].name)
-                    } header: {
                         Text("Other devices (" + String(bleManager.otherDevices.count) + ")")
                     }
-                    
                 }
             }
-        }
+        }.preferredColorScheme(.dark)
+        .background(Color.purple)
+        // end View here
     }
 }
 
