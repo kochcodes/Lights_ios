@@ -90,9 +90,24 @@ struct ContentView: View {
                                 )
                             }
                             Button(action: {
-                                bleManager.sendPercentage(value: 20)
+                                bleManager.sendPercentage(value: 0)
                             }) {
-                                Text("Send")
+                                Text("Mode 0")
+                            }
+                            Button(action: {
+                                bleManager.sendPercentage(value: 1)
+                            }) {
+                                Text("Mode 1")
+                            }
+                            Button(action: {
+                                bleManager.sendPercentage(value: 2)
+                            }) {
+                                Text("Mode 2")
+                            }
+                            Button(action: {
+                                bleManager.sendPercentage(value: 3)
+                            }) {
+                                Text("Mode 3")
                             }
                         }
                     } header: {
