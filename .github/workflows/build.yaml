@@ -44,4 +44,3 @@ jobs:
           USER: ${{ secrets.APPSTORE_EMAIL }}
           PASS: ${{ secrets.UPLOAD_PASSWORD }}
         run: xcrun altool --upload-app -f "Appname.ipa" -u "$USER" -p "$PASS"
-        ```
