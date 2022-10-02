@@ -12,35 +12,8 @@ jobs:
         with:
           lfs: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
+      - uses: yukiarrr/ios-build-action@v1.5.0
         with:
-          node-version: '14'
-
-      - name: Restore yarn cache
-        uses: c-hive/gha-yarn-cache@v1
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - name: Install Pods
-        working-directory: ios
-        run: pod install --repo-update
-
-      - name: Build Archive
-        uses: yukiarrr/ios-build-action@v1.3.0
-        with:
-          project-path: ios/Appname.xcodeproj
-          p12-base64: ${{ secrets.P12_BASE64 }}
-          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
-          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
-          team-id: ${{ secrets.TEAM_ID }}
-          workspace-path: ios/Appname.xcworkspace
-          scheme: Appname
-          output-path: Appname.ipa
-
-      - name: Upload IPA
-        env:
-          USER: ${{ secrets.APPSTORE_EMAIL }}
-          PASS: ${{ secrets.UPLOAD_PASSWORD }}
-        run: xcrun altool --upload-app -f "Appname.ipa" -u "$USER" -p "$PASS"
+          mobileprovision-base64: |
+            ${{ secrets.MY_MOBILEPROVISION_BASE64 }}
+            ${{ secrets.YOUR_MOBILEPROVISION_BASE64 }}
