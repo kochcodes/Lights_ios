@@ -1,13 +1,9 @@
 name: iOS Deploy
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'ios/Appname.xcodeproj/project.pbxproj'
+
+on: [push]
 
 jobs:
-  deploy:
+  build:
     name: Build IPA
     runs-on: macos-latest
     steps:
