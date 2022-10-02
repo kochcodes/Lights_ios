@@ -64,55 +64,79 @@ struct ContentView: View {
                     }
                 } else {
                     Section{
-                        Text("Name").badge(
-                            Text(bleManager.device.name)
-                        )
-                        Text("Status").badge(
-                            Text(String(bleManager.device.status))
-                        )
                         Text("RSSI").badge(
                             Text(String(bleManager.device.rssi) + " dBm")
                         )
                         if(bleManager.device.status == "connected"){
                             if( bleManager.device.batteryLevel != -1){
-                                Text("Battery Level").badge(
-                                    Text(String(bleManager.device.batteryLevel) + "%")
+                                Text("Blink Routine").badge(
+                                    Text(String(bleManager.device.blink_routine))
                                 )
                             }
-                            if( bleManager.device.percentage != -1){
-                                Text("Percentage").badge(
-                                    Text(String(bleManager.device.percentage) + "%")
+                            if( bleManager.device.sent_messages != -1){
+                                Text("Sent Messages").badge(
+                                    Text(String(bleManager.device.sent_messages))
                                 )
                             }
-                            if( bleManager.device.mode != -1){
-                                Text("Mode").badge(
-                                    Text(String(bleManager.device.mode))
+                            if( bleManager.device.delivered_messages != -1){
+                                Text("Delivered Messages").badge(
+                                    Text(String(bleManager.device.delivered_messages))
                                 )
                             }
+                            if( bleManager.device.received_messages != -1){
+                                Text("Received Messages").badge(
+                                    Text(String(bleManager.device.received_messages))
+                                )
+                            }
+                        }
+                    } header: {
+                        Text("Lights " + (bleManager.device.status == "connected" ? "connected" : "found"))
+                    }
+                    if(bleManager.device.status == "connected" && bleManager.device.mode >= 0){
+                        Section{
+                            if( bleManager.device.mode == 0){
+                                Button(action: {
+                                    bleManager.sendMode(value: 1)
+                                }) {
+                                    Text("Switch to slave mode")
+                                }
+                            } else if( bleManager.device.mode == 1){
+                                Button(action: {
+                                    bleManager.sendMode(value: 0)
+                                }) {
+                                    Text("Switch to master mode")
+                                }
+                            }
+                        } header: {
+                            Text( bleManager.device.mode > 0 ? "Slave Mode" : "Master Mode")
+                        }
+                        Section{
                             Button(action: {
-                                bleManager.sendPercentage(value: 0)
+                                bleManager.sendRoutine(value: 0)
                             }) {
                                 Text("Mode 0")
                             }
                             Button(action: {
-                                bleManager.sendPercentage(value: 1)
+                                bleManager.sendRoutine(value: 1)
                             }) {
                                 Text("Mode 1")
                             }
                             Button(action: {
-                                bleManager.sendPercentage(value: 2)
+                                bleManager.sendRoutine(value: 2)
                             }) {
                                 Text("Mode 2")
                             }
                             Button(action: {
-                                bleManager.sendPercentage(value: 3)
+                                bleManager.sendRoutine(value: 3)
                             }) {
                                 Text("Mode 3")
                             }
+                        } header: {
+                            Text("Light Modes")
                         }
-                    } header: {
-                        Text("Lights found")
+                        
                     }
+                    
                     if( bleManager.device.status == "connected"){
                         Button(action: {
                             bleManager.disconnect()

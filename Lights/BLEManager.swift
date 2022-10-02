@@ -15,6 +15,10 @@ struct Peripheral: Identifiable {
     var status: String
     var batteryLevel: Int
     var percentage: Int
+    var sent_messages: Int
+    var delivered_messages: Int
+    var received_messages: Int
+    var blink_routine: Int
     var mode: Int
 }
 
@@ -35,16 +39,22 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     var myPeripheral: CBPeripheral!
     @Published var device: Peripheral!
     
-    var setValueCharacteristic: CBCharacteristic?
+    var setRoutineCharacteristic: CBCharacteristic?
+    var setModeCharacteristic: CBCharacteristic?
     
     let batteryServiceCBUUID = CBUUID(string: "0x180F")
     let batteryLevelCharacteristicCBUUID = CBUUID(string: "2A19")
     
-    let percentageServiceCBUUID = CBUUID(string: "0x27AD")
-    let percentageCharacteristicCBUUID = CBUUID(string: "0x2A6E")
+    let routineServiceCBUUID = CBUUID(string: "0x27AD")
+    let routineCharacteristicCBUUID = CBUUID(string: "0x2A6E")
 
     let modeServiceCBUUID = CBUUID(string: "0x27AE")
     let modeCharacteristicCBUUID = CBUUID(string: "0x2A6F")
+    
+    let stateServiceCBUUID = CBUUID(string: "0x27AF")
+    let stateSentMessagesCharacteristicCBUUID = CBUUID(string: "0x2A70")
+    let stateReceivedMessagesCharacteristicCBUUID = CBUUID(string: "0x2A71")
+    let stateDeliveredMessagesCharacteristicCBUUID = CBUUID(string: "0x2A72")
     
     override init() {
         super.init()
@@ -87,10 +97,21 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         myPeripheral.discoverServices(nil)
     }
 
-    func sendPercentage(value: Int){
+    func sendRoutine(value: Int){
         let data = Data([UInt8(value)])
-        if(setValueCharacteristic != nil){
-            myPeripheral.writeValue(data, for: setValueCharacteristic!, type: CBCharacteristicWriteType.withResponse)
+        if(setRoutineCharacteristic != nil){
+            myPeripheral.writeValue(data, for: setRoutineCharacteristic!, type: CBCharacteristicWriteType.withResponse)
+            print("Sending")
+        } else {
+            print("No Characteristic found to send to")
+        }
+    }
+    
+    func sendMode(value: Int){
+        let data = Data([UInt8(value)])
+        self.device.mode = value
+        if(setModeCharacteristic != nil){
+            myPeripheral.writeValue(data, for: setModeCharacteristic!, type: CBCharacteristicWriteType.withResponse)
             print("Sending")
         } else {
             print("No Characteristic found to send to")
@@ -111,8 +132,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         for characteristic in characteristics {
             print(characteristic)
             peripheral.setNotifyValue(true, for: characteristic)
-            if(characteristic.uuid == percentageCharacteristicCBUUID){
-                setValueCharacteristic = characteristic
+            if(characteristic.uuid == routineCharacteristicCBUUID){
+                setRoutineCharacteristic = characteristic
+            } else if(characteristic.uuid == modeCharacteristicCBUUID){
+                setModeCharacteristic = characteristic
             }
         }
     }
@@ -122,12 +145,21 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             case batteryLevelCharacteristicCBUUID:
                 let batteryLevel = batteryLevel(from: characteristic)
                 device.batteryLevel = Int(batteryLevel)
-            case percentageCharacteristicCBUUID:
-                let percentage = percentage(from: characteristic)
-                device.percentage = Int(percentage)
             case modeCharacteristicCBUUID:
                 let mode = percentage(from: characteristic)
                 device.mode = Int(mode)
+            case stateSentMessagesCharacteristicCBUUID:
+                let sent_messages = percentage(from: characteristic)
+                device.sent_messages = Int(sent_messages)
+            case stateDeliveredMessagesCharacteristicCBUUID:
+                let delivered_messages = percentage(from: characteristic)
+                device.delivered_messages = Int(delivered_messages)
+            case stateReceivedMessagesCharacteristicCBUUID:
+                let received_messages = percentage(from: characteristic)
+                device.received_messages = Int(received_messages)
+            case routineCharacteristicCBUUID:
+                let blink_routine = percentage(from: characteristic)
+                device.blink_routine = Int(blink_routine)
             default:
             print("Unhandled Characteristic UUID: \(characteristic.uuid)")
         }
@@ -195,6 +227,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 status: pConnecteable ? "ready" : "in use",
                 batteryLevel: -1,
                 percentage: 0,
+                sent_messages: 0,
+                delivered_messages: 0,
+                received_messages: 0,
+                blink_routine: 0,
                 mode: -1
             )
         }
