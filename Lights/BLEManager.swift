@@ -134,6 +134,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             peripheral.setNotifyValue(true, for: characteristic)
             if(characteristic.uuid == routineCharacteristicCBUUID){
                 setRoutineCharacteristic = characteristic
+                self.sendMode(value: 1)
             } else if(characteristic.uuid == modeCharacteristicCBUUID){
                 setModeCharacteristic = characteristic
             }

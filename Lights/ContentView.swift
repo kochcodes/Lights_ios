@@ -110,31 +110,32 @@ struct ContentView: View {
                         } header: {
                             Text( bleManager.device.mode > 0 ? "Slave Mode" : "Master Mode")
                         }
-                        Section{
-                            Button(action: {
-                                bleManager.sendRoutine(value: 0)
-                            }) {
-                                Text("Mode 0")
+                        if( bleManager.device.mode == 0 ){
+                            Section{
+                                Button(action: {
+                                    bleManager.sendRoutine(value: 0)
+                                }) {
+                                    Text("Mode 0")
+                                }
+                                Button(action: {
+                                    bleManager.sendRoutine(value: 1)
+                                }) {
+                                    Text("Mode 1")
+                                }
+                                Button(action: {
+                                    bleManager.sendRoutine(value: 2)
+                                }) {
+                                    Text("Mode 2")
+                                }
+                                Button(action: {
+                                    bleManager.sendRoutine(value: 3)
+                                }) {
+                                    Text("Mode 3")
+                                }
+                            } header: {
+                                Text("Light Modes")
                             }
-                            Button(action: {
-                                bleManager.sendRoutine(value: 1)
-                            }) {
-                                Text("Mode 1")
-                            }
-                            Button(action: {
-                                bleManager.sendRoutine(value: 2)
-                            }) {
-                                Text("Mode 2")
-                            }
-                            Button(action: {
-                                bleManager.sendRoutine(value: 3)
-                            }) {
-                                Text("Mode 3")
-                            }
-                        } header: {
-                            Text("Light Modes")
                         }
-                        
                     }
                     
                     if( bleManager.device.status == "connected"){
