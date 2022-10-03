@@ -1,0 +1,19 @@
+name: iOS Deploy
+
+on: [push]
+
+jobs:
+  build:
+    name: Build IPA
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - uses: yukiarrr/ios-build-action@v1.5.0
+        with:
+          mobileprovision-base64: |
+            ${{ secrets.MY_MOBILEPROVISION_BASE64 }}
+            ${{ secrets.YOUR_MOBILEPROVISION_BASE64 }}
